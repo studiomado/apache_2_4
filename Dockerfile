@@ -41,6 +41,4 @@ RUN chkconfig httpd off
 
 EXPOSE 80 443
 
-ENTRYPOINT bash
-
-#ENTRYPOINT /usr/local/apache2/bin/apachectl start && bash
+ENTRYPOINT /usr/local/apache2/bin/apachectl start && bash
