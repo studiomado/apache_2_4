@@ -23,6 +23,8 @@ RUN yum install -y php php-devel php-pear php-pdo php-mysql php-dom php-gd php-m
 RUN mkdir -p /usr/lib/php
 RUN pecl install imagick
 
+RUN mkdir -p /usr/local/apache2/conf/ssl && cd /usr/local/apache2/conf/ssl && openssl req -new -x509 -days 365 -sha1 -newkey rsa:1024 -nodes -keyout server.key -out server.crt  -subj '/O=Company/OU=Department/CN=vhost'
+
 ADD usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
 ADD usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
 ADD usr/local/apache2/modules/libphp5.so /usr/local/apache2/modules/libphp5.so
@@ -39,4 +41,6 @@ RUN chkconfig httpd off
 
 EXPOSE 80 443
 
-ENTRYPOINT /usr/local/apache2/bin/apachectl start && bash
+ENTRYPOINT bash
+
+#ENTRYPOINT /usr/local/apache2/bin/apachectl start && bash
