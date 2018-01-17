@@ -25,15 +25,15 @@ RUN pecl install imagick
 
 RUN mkdir -p /usr/local/apache2/conf/ssl && cd /usr/local/apache2/conf/ssl && openssl req -new -x509 -days 365 -sha1 -newkey rsa:1024 -nodes -keyout server.key -out server.crt  -subj '/O=Company/OU=Department/CN=vhost'
 
+RUN mkdir -p /var/www/html/data/logs
+RUN mkdir -p /var/www/html/data/cache
+RUN chmod 777 -R /var/www/html/data/logs
+RUN touch /var/www/html/data/logs/access_log
+RUN touch /var/www/html/data/logs/error_log
+
 ADD usr/local/apache2/conf/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
 ADD usr/local/apache2/conf/httpd.conf /usr/local/apache2/conf/httpd.conf
 ADD usr/local/apache2/modules/libphp5.so /usr/local/apache2/modules/libphp5.so
-
-RUN mkdir -p /var/www/html/data/logs
-RUN mkdir -p /var/www/html/data/cache
-RUN touch /var/www/html/data/logs/access_log
-RUN touch /var/www/html/data/logs/error_log
-RUN chmod 777 -R /var/www/html/data/logs
 
 RUN /usr/local/apache2/bin/apachectl stop
 RUN /etc/init.d/httpd stop
